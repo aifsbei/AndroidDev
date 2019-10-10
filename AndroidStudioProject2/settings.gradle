@@ -1,0 +1,2 @@
+include ':app', ':lifecycleactivity'
+rootProject.name='AndroidStudioProject2'
