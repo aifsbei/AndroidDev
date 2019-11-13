@@ -1,2 +1,2 @@
-include ':app', ':lifecycleactivity'
+include ':app', ':lifecycleactivity', ':activities', ':intentfilter', ':toastapp', ':notificationapp', ':dialog'
 rootProject.name='AndroidStudioProject2'
