@@ -1,0 +1,2 @@
+include ':app', ':thread', ':data_thread', ':looper', ':diplom', ':loader'
+rootProject.name='lablesson4'
