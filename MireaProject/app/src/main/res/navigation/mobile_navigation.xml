@@ -56,4 +56,19 @@
         android:name="ru.mirea.leskov.mireaproject.AudioFragment"
         android:label="@string/menu_audio"
         tools:layout="=@layout/fragment_audio" />
+    <fragment
+        android:id="@+id/nav_camera"
+        android:name="ru.mirea.leskov.mireaproject.CameraFragment"
+        android:label="@string/menu_camera"
+        tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/nav_accelerometer"
+        android:name="ru.mirea.leskov.mireaproject.AccelerometerFragment"
+        android:label="@string/menu_accelerometer"
+        tools:layout="@layout/fragment_accelerometer" />
+    <fragment
+        android:id="@+id/nav_audio_record"
+        android:name="ru.mirea.leskov.mireaproject.AudioRecordFragment"
+        android:label="@string/menu_audio_record"
+        tools:layout="@layout/fragment_audio_record" />
 </navigation>
