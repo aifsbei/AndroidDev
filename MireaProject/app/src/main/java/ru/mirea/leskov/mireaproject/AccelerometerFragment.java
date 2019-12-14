@@ -25,8 +25,12 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private TextView azimuthTextView;
     private TextView pitchTextView;
     private TextView rollTextView;
+    private TextView textViewTemperature;
+    private TextView textViewLight;
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
+    private Sensor temperatureSensor;
+    private Sensor lightSensor;
 
     public AccelerometerFragment() {
         // Required empty public constructor
@@ -41,9 +45,16 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         azimuthTextView = view.findViewById(R.id.textViewAzimuth);
         pitchTextView = view.findViewById(R.id.textViewPitch);
         rollTextView = view.findViewById(R.id.textViewRoll);
+        textViewTemperature = view.findViewById(R.id.textViewTemperature);
+        textViewLight = view.findViewById(R.id.textViewLight);
         sensorManager = (SensorManager)getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometerSensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        temperatureSensor = sensorManager
+                .getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        lightSensor = sensorManager
+                .getDefaultSensor(Sensor.TYPE_LIGHT);
+
         return view;
     }
     @Override
@@ -56,6 +67,10 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         super.onResume();
         sensorManager.registerListener(this, accelerometerSensor,
                 SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, temperatureSensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, lightSensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
     @SuppressLint("SetTextI18n")
     @Override
@@ -67,6 +82,14 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
             azimuthTextView.setText("Azimuth: " + valueAzimuth);
             pitchTextView.setText("Pitch: " + valuePitch);
             rollTextView.setText("Roll: " + valueRoll);
+        }
+        if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+            float temperature = event.values[0];
+            textViewTemperature.setText("Temperature: " + temperature);
+        }
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            float light = event.values[0];
+            textViewLight.setText("Light: " + light);
         }
     }
 

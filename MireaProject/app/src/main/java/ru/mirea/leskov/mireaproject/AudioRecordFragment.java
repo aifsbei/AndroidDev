@@ -80,7 +80,7 @@ public class AudioRecordFragment extends Fragment {
             }
         };
 
-        View view = inflater.inflate(R.layout.fragment_camera, container, false);
+        View view = inflater.inflate(R.layout.fragment_audio_record, container, false);
         startRecordButton = view.findViewById(R.id.btnStart);
         stopRecordButton = view.findViewById(R.id.btnStop);
 // инициализация объекта MediaRecorder
