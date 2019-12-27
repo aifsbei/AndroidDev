@@ -47,6 +47,7 @@ import java.io.FileOutputStream;
 public class MainActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 0;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private AppBarConfiguration mAppBarConfiguration;
 

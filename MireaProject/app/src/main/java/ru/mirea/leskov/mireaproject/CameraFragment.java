@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,13 @@ public class CameraFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
         imageView = view.findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
         int permissionStatus = ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA);
         if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
@@ -101,7 +109,7 @@ public class CameraFragment extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},
                     REQUEST_CODE_PERMISSION_CAMERA);
         }
-        return inflater.inflate(R.layout.fragment_camera, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -117,33 +125,25 @@ public class CameraFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
 // извлекаем изображение
+            Log.d(TAG, "onActivityResult: camera is ok!!!!111!!");
+            ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
             Bitmap thumbnailBitmap = (Bitmap) data.getExtras().get("data");
+            thumbnailBitmap.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream);
             imageView.setImageBitmap(thumbnailBitmap);
             File file = new File( Environment.getExternalStorageDirectory() + "/SampleImage.png");
-            ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
             try
-
             {
                 file.createNewFile();
-
                 FileOutputStream fileoutputstream = new FileOutputStream(file);
-
                 fileoutputstream.write(bytearrayoutputstream.toByteArray());
-
                 fileoutputstream.close();
 
             }
-
             catch (Exception e)
-
             {
-
                 e.printStackTrace();
-
             }
-
             Toast.makeText(getActivity(), "Image Saved Successfully", Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -160,6 +160,7 @@ public class CameraFragment extends Fragment {
             }
         }
     }
+
 
 
 
