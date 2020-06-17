@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioFormat;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button startRecordButton;
     private Button stopRecordButton;
     private MediaRecorder mediaRecorder;
+    private RehearsalAudioRecorder recorder;
     private File audioFile;
     private String[] PERMISSIONS = {
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         stopRecordButton = findViewById(R.id.btnStop);
 // инициализация объекта MediaRecorder
         mediaRecorder = new MediaRecorder();
+
 // проверка наличия разрешений на выполнение аудиозаписи и сохранения на карту памятданных.
                 isWork = hasPermissions(this, PERMISSIONS);
         if (!isWork) {
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         stopRecordButton.setEnabled(false);
         startRecordButton.requestFocus();
         stopRecording();
-        processAudioFile();
+//        processAudioFile();
     }
 
     private void startRecording() throws IOException {
@@ -98,29 +101,36 @@ public class MainActivity extends AppCompatActivity {
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             Log.d(TAG, "sd-card success");
-// выбор источника звука
-            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-// выбор формата данных
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-// выбор кодека
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            if (audioFile == null) {
-// создание файла
-                audioFile = new File(this.getExternalFilesDir(
-                        Environment.DIRECTORY_MUSIC), "mirea.3gp");
-            }
-            mediaRecorder.setOutputFile(audioFile.getAbsolutePath());
-            mediaRecorder.prepare();
-            mediaRecorder.start();
+//// выбор источника звука
+//            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//// выбор формата данных
+//            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+//// выбор кодека
+//            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+//            if (audioFile == null) {
+//// создание файла
+//                audioFile = new File(this.getExternalFilesDir(
+//                        Environment.DIRECTORY_MUSIC), "mirea.3gp");
+//            }
+//            mediaRecorder.setOutputFile(audioFile.getAbsolutePath());
+//            mediaRecorder.prepare();
+//            mediaRecorder.start();
+            recorder = new RehearsalAudioRecorder(RehearsalAudioRecorder.RECORDING_UNCOMPRESSED, MediaRecorder.AudioSource.MIC, 44100, AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_PCM_16BIT);
+            recorder.setOutputFile(this.getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "m.3gp");
+            recorder.prepare();
+            recorder.start();
             Toast.makeText(this, "Recording started!", Toast.LENGTH_SHORT).show();
         }
     }
     private void stopRecording() {
         if (mediaRecorder != null) {
             Log.d(TAG, "stopRecording");
-            mediaRecorder.stop();
-            mediaRecorder.reset();
-            mediaRecorder.release();
+//            mediaRecorder.stop();
+//            mediaRecorder.reset();
+//            mediaRecorder.release();
+            recorder.stop();
+            recorder.reset();
+            recorder.release();
             Toast.makeText(this, "You are not recording right now!", Toast.LENGTH_SHORT).show();
         }
     }

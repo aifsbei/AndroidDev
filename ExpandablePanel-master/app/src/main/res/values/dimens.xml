@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="bottom_layout_margin">10dp</dimen>
+    <dimen name="title_size">20dp</dimen>
+    <dimen name="details_size">17dp</dimen>
+</resources>
